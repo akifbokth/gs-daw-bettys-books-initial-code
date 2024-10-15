@@ -4,6 +4,15 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// Middleware to check if the user is logged in
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('./login'); // Redirect to the absolute path of the login page
+    } else {
+        next(); // Move to the next middleware function
+    }
+};
+
 router.get('/login', function (req, res, next) {
     res.render('login.ejs');
 });
@@ -20,24 +29,29 @@ router.post('/loggedin', function (req, res, next) {
             return next(error); // Handle database error
         }
 
-        if (results.length > 0) {
-            const hashedPassword = results[0].hashedPassword;
-
-            // Compare the password supplied with the hashed password from the database
-            bcrypt.compare(plainPassword, hashedPassword, function (err, result) {
-                if (err) {
-                    return next(err); // Handle bcrypt error
-                }
-                
-                if (result === true) {
-                    res.send('Login successful!');
-                } else {
-                    res.send('Incorrect password!');
-                }
-            });
-        } else {
-            res.send('User not found!');
+        if (results.length === 0) {
+            // User not found; send response immediately and stop further execution
+            return res.send('User not found!');
         }
+
+        const hashedPassword = results[0].hashedPassword;
+
+        // Compare the password supplied with the hashed password from the database
+        bcrypt.compare(plainPassword, hashedPassword, function (err, result) {
+            if (err) {
+                return next(err); // Handle bcrypt error
+            }
+            
+            if (result === true) {
+                // Save user session here, when login is successful
+                req.session.userId = req.body.username;
+                // Redirect to the main menu screen (index.ejs) after successful login
+                return res.redirect('/'); // Return to ensure no further code executes
+            } else {
+                // Incorrect password; send response and stop further execution
+                return res.send('Incorrect password!');
+            }
+        });
     });
 });
 
@@ -70,7 +84,7 @@ router.post('/registered', function (req, res, next) {
     });
 });
 
-router.get('/list', function(req, res, next) {
+router.get('/list', redirectLogin, function(req, res, next) { // 'redirectLogin' will now force the user to login to access that page
     let sqlquery = "SELECT * FROM users" // query database to get all the books
     // execute sql query
     db.query(sqlquery, (err, result) => {
@@ -81,5 +95,14 @@ router.get('/list', function(req, res, next) {
      })
 })
 
-// Export the router object so index.js can access it
+router.get('/logout', redirectLogin, (req,res) => {
+    req.session.destroy(err => {
+    if (err) {
+      return res.redirect('./')
+    }
+    res.send('you are now logged out. <a href='+'/'+'>Home</a>');
+    })
+})
+
+// Export the router so index.js can access it
 module.exports = router;

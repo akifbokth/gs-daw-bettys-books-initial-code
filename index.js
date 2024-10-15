@@ -1,6 +1,7 @@
 // Import express and ejs
 var express = require ('express')
 var ejs = require('ejs')
+var session = require ('express-session')
 
 //Import mysql module
 var mysql = require('mysql2')
@@ -18,6 +19,18 @@ app.use(express.urlencoded({ extended: true }))
 
 // Set up public folder (for css and statis js)
 app.use(express.static(__dirname + '/public'))
+
+// Create a session
+app.use(session({
+    secret: 'somerandomstuff', // The 'secret' parameter is a part of securing the session, it signs the session ID's 
+                               // cookie which will be sent to the browser. If the cookies have been tampered with
+                               // then the 'secret' would not match up and can be flagged as being altered or hijacked 
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}))
 
 // Define the database connection
 const db = mysql.createConnection ({
