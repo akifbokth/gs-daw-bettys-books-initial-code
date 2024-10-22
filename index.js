@@ -2,10 +2,11 @@
 var express = require ('express')
 var ejs = require('ejs')
 var session = require ('express-session')
+var validator = require ('express-validator');
+const expressSanitizer = require('express-sanitizer');
 
 //Import mysql module
-var mysql = require('mysql2')
-
+var mysql = require('mysql2')   
 
 // Create the express application object
 const app = express()
@@ -31,6 +32,9 @@ app.use(session({
         expires: 600000
     }
 }))
+
+// Create an input sanitizer
+app.use(expressSanitizer()); 
 
 // Define the database connection
 const db = mysql.createConnection ({
