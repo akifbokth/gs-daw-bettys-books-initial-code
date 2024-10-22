@@ -51,7 +51,7 @@ router.post('/bookadded', function(req, res, next) {
         if (err) {
             next(err);
         } else {
-            res.send('This book has been added to the database, name: ' + req.body.name + ' price ' + req.body.price);
+            res.send('This book has been added to the database, name: ' + req.sanitize(req.body.name) + ' price ' + req.sanitize(req.body.price));
         }
     });
 });
