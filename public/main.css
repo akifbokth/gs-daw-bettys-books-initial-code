@@ -129,3 +129,70 @@ a.weather-link:hover {
 .form-button:hover {
   background-color: #005f8a;
 }
+
+/* Styles for TV Shows Page */
+
+.tv-header {
+  font-size: 2.5em;
+  color: #0077b6;
+}
+
+.tv-form {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.tv-results {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.tv-show {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #023e8a;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.form-button {
+  background-color: #0077b6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #005f8a;
+}
+
+.tv-link {
+  color: #0077b6;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.tv-link:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: 1px solid #ccc;
+  margin: 20px 0;
+}
+

@@ -12,6 +12,9 @@ var mysql = require('mysql2')
 const app = express()
 const port = 8000
 
+// Import API route handler
+const apiRoutes = require('./routes/api');
+
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs')
 
@@ -66,6 +69,19 @@ app.use('/users', usersRoutes)
 // Load the route handlers for /books
 const booksRoutes = require('./routes/books')
 app.use('/books', booksRoutes)
+
+// Load the route handlers for /api
+app.use('/api', apiRoutes);
+
+// Load the route handlers for /tvshows
+const tvShowsRoutes = require('./routes/tvshows');
+app.use('/tvshows', tvShowsRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong! Please try again later.');
+});
 
 // Start the web app listening
 app.listen(port, () => console.log(`Node app listening on port ${port}!`))
