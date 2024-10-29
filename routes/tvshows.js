@@ -78,9 +78,7 @@ router.post('/results', function(req, res) {
                         <p><strong>Language:</strong> ${show.show.language || 'N/A'}</p>
                         <p><strong>Genres:</strong> ${show.show.genres.length > 0 ? show.show.genres.join(', ') : 'N/A'}</p>
                         <p><strong>Premiered:</strong> ${show.show.premiered || 'N/A'}</p>
-                        <p><strong>Status:</strong> ${show.show.status || 'N/A'}</p>
                         <p><strong>Rating:</strong> ${show.show.rating.average || 'N/A'}</p>
-                        <p><strong>Runtime:</strong> ${show.show.runtime ? show.show.runtime + ' minutes' : 'N/A'}</p>
                         <p><strong>Network:</strong> ${show.show.network ? show.show.network.name : show.show.webChannel ? show.show.webChannel.name : 'N/A'}</p>
                         <p><strong>Summary:</strong> ${show.show.summary ? show.show.summary.replace(/<[^>]+>/g, '') : 'No summary available.'}</p>
                         ${show.show.image ? `<img src="${show.show.image.medium}" alt="${show.show.name}">` : ''}
